@@ -43,6 +43,8 @@ services:
     remoteAccess: true
     serviceFiles:
       - name: odoo
+        https: letsencrypt
+        domains: ['www.example.com', 'example.com']
     deployTo:
       - odoo
 hosts:
