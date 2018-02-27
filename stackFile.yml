@@ -1,6 +1,6 @@
 version: '1.0'
 services:
-  - name: db
+  - name: db-klantnaam
     type: postgres
     version: 9.6
     configuration: StandAlone
@@ -13,10 +13,11 @@ services:
     deployTo:
       - odoo
 
-  - name: odoo
+  - name: odoo-klantnaam
     type: docker
-    image: odoo
+    image: codeagency/odoo-enterprise
     version: 11.0
+    source: null
     ports:
       - 8069
       - 8071
@@ -29,10 +30,11 @@ services:
     volumes:
       - directory: /var/lib/odoo
     volumesUID: 101
+    startCommand: --addons $MAIN_PATH,/mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons  -i web_enterprise
     deployTo:
       - odoo
 
-  - name: web
+  - name: nginx-klantnaam
     type: nginx
     version: 1.13
     ports:
@@ -41,11 +43,12 @@ services:
     remoteAccess: true
     serviceFiles:
       - name: odoo
+        https: letsencrypt
+        domains: ['www.example.com', 'example.com']
     deployTo:
       - odoo
-
 hosts:
   - name: odoo
     requirements:
-      cores: 2
-      memory: 4
+      cores: 1
+      memory: 1
