@@ -23,10 +23,10 @@ services:
       - 8071
     remoteAccess: false
     env:
-      HOST: "{{=service('db').getMasterAlias()}}"
-      PORT: "{{=service('db').getMainPort()}}"
+      HOST: "{{=service('db-klantnaam').getMasterAlias()}}"
+      PORT: "{{=service('db-klantnaam').getMainPort()}}"
       USER: odoo
-      PASSWORD: "{{=service('db').getEnv('POSTGRES_PASSWORD')}}"
+      PASSWORD: "{{=service('db-klantnaam').getEnv('POSTGRES_PASSWORD')}}"
     volumes:
       - directory: /var/lib/odoo
     volumesUID: 101
