@@ -1,6 +1,6 @@
 version: '1.0'
 services:
-  - name: db-klantnaam
+  - name: db-maxxtools
     type: postgres
     version: 9.6
     configuration: StandAlone
@@ -13,20 +13,21 @@ services:
     deployTo:
       - odoo
 
-  - name: odoo-klantnaam
+  - name: odoo-maxxtools
     type: docker
     image: codeagency/odoo-enterprise
     version: 11.0
-    source: null
+    source: git@github.com:codeagencybe/odoo-client-test.git
+    branch: master
     ports:
       - 8069
       - 8071
     remoteAccess: false
     env:
-      HOST: "{{=service('db-klantnaam').getMasterAlias()}}"
-      PORT: "{{=service('db-klantnaam').getMainPort()}}"
+      HOST: "{{=service('db-maxxtools').getMasterAlias()}}"
+      PORT: "{{=service('db-maxxtools').getMainPort()}}"
       USER: odoo
-      PASSWORD: "{{=service('db-klantnaam').getEnv('POSTGRES_PASSWORD')}}"
+      PASSWORD: "{{=service('db-maxxtools').getEnv('POSTGRES_PASSWORD')}}"
     volumes:
       - directory: /var/lib/odoo
     volumesUID: 101
@@ -34,7 +35,7 @@ services:
     deployTo:
       - odoo
 
-  - name: nginx-klantnaam
+  - name: nginx-maxxtools
     type: nginx
     version: 1.13
     ports:
@@ -42,7 +43,7 @@ services:
       - 443
     remoteAccess: true
     serviceFiles:
-      - name: odoo
+      - name: odoo-maxxtools
     deployTo:
       - odoo
 hosts:
