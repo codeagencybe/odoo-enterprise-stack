@@ -17,8 +17,7 @@ services:
     type: docker
     image: codeagency/odoo-enterprise
     version: 11.0
-    source: git@github.com:codeagencybe/odoo-client-test.git
-    branch: master
+    source: null
     ports:
       - 8069
       - 8071
